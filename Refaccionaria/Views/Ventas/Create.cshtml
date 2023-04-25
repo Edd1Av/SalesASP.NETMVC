@@ -1,0 +1,276 @@
+﻿@model Refaccionaria.Models.Ventas
+
+@{
+    ViewBag.Title = "Create";
+    
+}
+
+<h2>Agregar Venta</h2>
+
+@if (ViewBag.Alert != null)
+{
+    <script>
+    alert("@ViewBag.Alert");
+    </script>
+}
+
+<!--@using (Html.BeginForm()) { }
+    <br> -->
+
+<form id="form1" method="post" action="Create">
+    @Html.AntiForgeryToken()
+    <div id="productosComprados">
+
+    </div>
+</form>
+
+    
+  
+    
+
+<div class="form-horizontal">
+
+    
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
+    <table class="table table-info table-striped table-hover mt-4">
+        <tbody id="Carrito">
+            <tr>
+                <th>Clave Producto</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Unidades</th>
+                <th>Subtotal</th>
+                <th>Eliminar</th>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+    
+    <div class="row">
+        <div class="col-md-10">
+            <div class="form-group mb-4 mt-4">
+                <input type="number" class="align-middle form-control-sm" value="0" id="Total" disabled />
+                <input type="submit" value="Confirmar" class="btn btn-success btn-sm align-middle" onclick="guardar()" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function guardar() {
+            let productos = document.getElementsByClassName("ProductoElegido");
+            if (productos.length >= 1) {
+                for (let i = 0; i < productos.length; i++) {
+                    let p1Id = productos[i].getElementsByClassName("ProductosId");
+                    let p2Id = p1Id[0].innerHTML;
+                    let node = document.createElement("input");
+                    node.type = "hidden";
+                    node.value = p2Id;
+                    node.name = "ProductosId";
+                    document.getElementById("productosComprados").appendChild(node);
+
+                    let p1Unidades = productos[i].getElementsByClassName("UnidadesVendidas");
+                    let p2Unidades = p1Unidades[0].innerHTML;
+                    let node2 = document.createElement("input");
+                    node2.type = "hidden";
+                    node2.value = p2Unidades;
+                    node2.name = "UnidadesVendidas"
+                    document.getElementById("productosComprados").appendChild(node2);
+
+                    console.log(p2Id, p2Unidades);
+
+                }
+            
+
+
+                //console.log(p1.innerHTML)
+
+                document.forms.form1.submit();
+            }
+            else {
+                alert("Agregue algun producto");
+            }
+            
+        }
+    </script>
+
+    <table class="table table-light table-striped table-hover">
+        <tr>
+            <th>
+                Clave Producto
+            </th>
+            <th>
+                Producto
+            </th>
+            <th>
+                Precio
+            </th>
+            <th>
+                En inventario
+            </th>
+            <th>
+                Unidades Compradas
+            </th>
+            <th></th>
+
+        </tr>
+
+        @foreach (var prod in ViewBag.ProductoVenta)
+        {
+            <tr>
+                <td>
+                    @prod.Id
+                </td>
+                <td>
+                    @prod.Producto
+                </td>
+
+                <td>
+                    @prod.Precio
+                </td>
+                <td>
+                    @prod.Unidades
+                </td>
+                <td>
+                    <input type="number" class="form-control-sm" id="UnidadesVendidasP-@prod.Id" />
+                </td>
+                <td>
+                    <input type="button" value="Agregar" onclick="agregarS(@prod.Id, '@prod.Producto', @prod.Precio, @prod.Unidades)" class="btn btn-outline-primary btn-sm" id="btnAgregar-@prod.Id" />
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+    <script>
+        function agregarS(pId, pProd, pPrecio, pUInventario) {
+            const unidadesVendidas = document.getElementById("UnidadesVendidasP-" + pId).value;
+            console.log(unidadesVendidas);
+            if (unidadesVendidas>0) {
+                if (pUInventario >= unidadesVendidas) {
+                    document.getElementById("btnAgregar-" + pId).disabled = true;
+
+
+                    //console.log(unidadesVendidas);
+
+                    const node = document.createElement("tr");
+                    node.className = "ProductoElegido";
+                    const idFila = "p" + pId;
+                    node.id = idFila;
+
+                    const celdaId = document.createElement("td");
+                    const textId = document.createTextNode(pId);
+                    celdaId.appendChild(textId);
+                    celdaId.className = "ProductosId";
+
+                    const celdaProducto = document.createElement("td");
+                    const textProducto = document.createTextNode(pProd);
+                    celdaProducto.appendChild(textProducto);
+
+                    const celdaPrecio = document.createElement("td");
+                    const textPrecio = document.createTextNode(pPrecio);
+                    celdaPrecio.appendChild(textPrecio);
+
+                    const celdaUnidades = document.createElement("td");
+                    const textUnidades = document.createTextNode(unidadesVendidas);
+                    celdaUnidades.appendChild(textUnidades);
+                    celdaUnidades.className = "UnidadesVendidas";
+
+                    const celdaSubtotal = document.createElement("td");
+                    const textSubtotal = document.createTextNode(unidadesVendidas * pPrecio);
+                    celdaSubtotal.appendChild(textSubtotal);
+                    celdaSubtotal.className = "Subtotal";
+
+                    const celdaEliminar = document.createElement("td");
+                    //const textbtn = document.createTextNode("Eliminar");
+                    const btn = document.createElement("input");
+                    btn.type = "button";
+                    btn.id = "btnEliminar" + pId;
+                    btn.value = "Eliminar";
+                    btn.className = "btn btn-outline-danger btn-sm";
+
+                    btn.setAttribute('onclick', `quitarProducto(${pId},${pPrecio},${unidadesVendidas})`);
+
+                    celdaEliminar.appendChild(btn);
+                    let idBtnEliminar = ("btnEliminar" + pId);
+                    //document.getElementById(idBtnEliminar).onclick=quitarProducto(pId);
+
+                    //console.log("id: "+idBtnEliminar);
+                    //console.log("boton: "+btn);
+                    //btnElim.onclick = quitarProducto(pId);
+
+                    node.appendChild(celdaId);
+                    node.appendChild(celdaProducto);
+                    node.appendChild(celdaPrecio);
+                    node.appendChild(celdaUnidades);
+                    node.appendChild(celdaSubtotal);
+                    node.appendChild(celdaEliminar);
+                    document.getElementById("Carrito").appendChild(node);
+
+
+                    let monto = parseInt(document.getElementById("Total").value);
+                    console.log(monto);
+                    console.log(unidadesVendidas);
+                    console.log(pPrecio);
+
+                    let precioProductos = unidadesVendidas * pPrecio;
+                    console.log(precioProductos);
+                    monto = monto + precioProductos;
+                    console.log(monto);
+                    document.getElementById("Total").value = monto;
+                }
+                else {
+                    alert("No hay suficiente inventario");
+                }
+            }
+            else {
+                alert("Ingrese una cantidad valida")
+            }
+        }
+
+
+
+    </script>
+    <script>
+        function quitarProducto(pIdd, precio, unidades) {
+            let pId = "p" + pIdd;
+            //console.log(pId);
+            let fl = document.getElementById(pId);
+            //console.log(fl);
+
+            fl.remove();
+
+            let monto = parseInt(document.getElementById("Total").value);
+            let subtotal = precio * unidades;
+            monto = monto - subtotal
+            document.getElementById("Total").value = monto;
+
+            document.getElementById("btnAgregar-" + pIdd).disabled = false;
+        }
+    </script>
+
+    <script>
+        function confirmar() {
+
+        }
+    </script>
+
+</div>
+
+
+
+
+
+<div>
+    @Html.ActionLink("Inicio", "Index", "Ventas", null, new { @class = "btn btn-outline-secondary text-dark" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

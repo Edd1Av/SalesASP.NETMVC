@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!--
+<div class="p-5 bg-dark text-white rounded homeImg">
+    <h1>Refaccionaria</h1>
+    <p class="lead">Panel de administración</p>
+    
+    @Html.ActionLink("Productos", "Index", "Productos", null, new { @class = "btn btn-primary btn-lg" })
+    <br />
+    <p></p>
+    @Html.ActionLink("Ventas", "Index", "Ventas", null, new { @class = "btn btn-primary btn-lg" })
+   
+</div> -->
+    
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5 class="card-title">Productos</h5>
+                <p class="card-text">Registro del inventario.</p>
+                @Html.ActionLink("Ver", "Index", "Productos", null, new { @class = "btn btn-warning btn-lg" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5 class="card-title">Ventas</h5>
+                <p class="card-text">Ventas registradas.</p>
+                @Html.ActionLink("Ver", "Index", "Ventas", null, new { @class = "btn btn-warning btn-lg" })
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+<br />
+<br />
+   
+<br />
+<br />
+<br />
+<br />
+
+
+<!-- ALERTIFY.CONFITM 
+     TempData[""]="";
+    -->

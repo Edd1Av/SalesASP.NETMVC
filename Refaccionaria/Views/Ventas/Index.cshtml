@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Refaccionaria.Models.Ventas>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Ventas</h2>
+@if (ViewBag.Alert != null)
+{
+    <script>
+    alert("@ViewBag.Alert");
+    </script>
+}
+
+<p>
+    @Html.ActionLink("Agregar Venta", "Create", "Ventas", null, new { @class = "btn btn-success" })
+</p>
+<table class="table table-light table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                <!--@Html.ActionLink("Editar", "Edit", "Ventas", new { id = item.Id }, new { @class = "btn btn-outline-info btn-sm"})-->
+                @Html.ActionLink("Detalles", "Details", "Ventas", new { id = item.Id }, new { @class = "btn btn-outline-info btn-sm"})
+                @Html.ActionLink("Eliminar", "Delete", "Ventas", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm"})
+            </td>
+        </tr>
+    }
+
+</table>

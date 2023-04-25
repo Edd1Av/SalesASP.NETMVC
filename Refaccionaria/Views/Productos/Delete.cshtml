@@ -1,0 +1,43 @@
+﻿@model Refaccionaria.Models.Productos
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+
+@if (ViewBag.Alert != null)
+{
+    <script>
+    alert("@ViewBag.Alert");
+    </script>
+}
+
+<h3>¿Realmente quiere eliminar este producto?</h3>
+<div class="mb-5">
+
+    <div class="card m-5 border-light bg-light" style="width: 18rem;">
+        <div class="card-header">Producto #@Html.DisplayFor(model => model.Id)</div>
+
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Html.DisplayNameFor(model => model.Producto)<span>: @Html.DisplayFor(model => model.Producto)</span></li>
+            <li class="list-group-item">@Html.DisplayNameFor(model => model.Descripcion)<span>: @Html.DisplayFor(model => model.Descripcion)</span></li>
+            <li class="list-group-item">@Html.DisplayNameFor(model => model.Precio)<span>: @Html.DisplayFor(model => model.Precio)</span></li>
+            <li class="list-group-item">@Html.DisplayNameFor(model => model.Unidades)<span>: @Html.DisplayFor(model => model.Unidades)</span></li>
+        </ul>
+    </div>
+
+    
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color m-5">
+            <input type="submit" value="Eliminar" class="btn btn-outline-danger" />
+            @Html.ActionLink("Inicio", "Index", "Productos", null, new { @class = "btn btn-outline-secondary text-dark" })
+        </div>
+    }
+</div>
+<br />

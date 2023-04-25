@@ -1,0 +1,76 @@
+﻿@model Refaccionaria.Models.Ventas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalles</h2>
+
+<div class="m-5">
+
+    <div class="card mb-4 mt-4 border-light" style="width: 18rem;">
+        <div class="card-header">Venta #@Html.DisplayFor(model => model.Id)</div>
+
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Html.DisplayNameFor(model => model.Fecha)<span>: @Html.DisplayFor(model => model.Fecha)</span></li>
+            <li class="list-group-item">@Html.DisplayNameFor(model => model.Total)<span>: @Html.DisplayFor(model => model.Total)</span></li>
+
+        </ul>
+    </div>
+
+
+
+    <table class="table table-light table-striped table-hover">
+        <tr>
+            <th>
+                # de Producto
+            </th>
+            <th>
+                Producto
+            </th>
+
+            <th>
+                Precio
+            </th>
+            <th>
+                Unidades
+            </th>
+            <th>
+                Subtotal
+            </th>
+
+        </tr>
+
+        @foreach (var prod in ViewBag.ProductoVenta)
+        {
+            <tr>
+                <td>
+                    @prod.id
+                </td>
+                <td>
+                    @prod.name
+                </td>
+                <td>
+                    @prod.precio
+                </td>
+                <td>
+                    @prod.unidades
+                </td>
+                <td>
+                    @prod.subtotal
+                </td>
+            </tr>
+
+        }
+
+    </table>
+
+    <div>
+
+        @Html.ActionLink("Inicio", "Index", "Ventas", null, new { @class = "btn btn-outline-secondary text-dark" })
+     
+    </div>
+    <br />
+</div>
+

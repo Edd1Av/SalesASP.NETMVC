@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Refaccionaria.Models.Productos>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="">Inventario</h2>
+
+<p>
+    @Html.ActionLink("Agregar Producto", "Create", "Productos", null, new { @class = "btn btn-success" })
+</p>
+<table class="table table-light table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Producto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Unidades)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Producto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Precio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unidades)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", "Productos", new { id = item.Id }, new { @class = "btn btn-outline-info btn-sm" })
+            @Html.ActionLink("Eliminar", "Delete", "Productos", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-sm" })
+        </td>
+    </tr>
+}
+</table>

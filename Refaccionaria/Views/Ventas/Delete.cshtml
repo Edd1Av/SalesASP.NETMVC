@@ -1,0 +1,33 @@
+﻿@model Refaccionaria.Models.Ventas
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h3>¿Realmente quiere eliminar esta venta?</h3>
+<div class="m-5">
+    
+    <div class="card mb-4 mt-4 border-light bg-light" style="width: 18rem;">
+        <div class="card-header">Venta #@Html.DisplayFor(model => model.Id)</div>
+
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Html.DisplayNameFor(model => model.Fecha)<span>: @Html.DisplayFor(model => model.Fecha)</span></li>
+            <li class="list-group-item">@Html.DisplayNameFor(model => model.Total)<span>: @Html.DisplayFor(model => model.Total)</span></li>
+
+        </ul>
+    </div>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Eliminar" class="btn btn-outline-danger" /> 
+        @Html.ActionLink("Inicio", "Index", "Ventas", null, new { @class = "btn btn-outline-secondary text-dark" })
+    </div>
+    <br />
+    }
+</div>
